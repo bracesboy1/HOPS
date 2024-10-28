@@ -1,8 +1,9 @@
+#HOPS.py
 import discord
 import random
 import sqlite3
 from player_cards import PlayerCard, initialize_player_cards
-from commands import send_player_cards, view_collection, add_user
+from commands import send_player_cards, view_collection, add_user, send_card_stats
 import asyncio
 
 initialize_player_cards()
@@ -34,5 +35,12 @@ async def on_message(message):
     if message.content.startswith('!collection'):
         await view_collection(message.channel, message.author.id,bot)
 
-bot.run('Bot Token replaced for privacy purposes')
+    if message.content.startswith('!stats'):
+        player_name = None
+        parts = message.content.split(' ', 1)
+        if len(parts) > 1:
+            player_name = parts[1]  # The name of the player
+        await send_card_stats(message.channel, message.author.id, player_name)
+
+bot.run('bot token replaced')
 
